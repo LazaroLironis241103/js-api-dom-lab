@@ -1,4 +1,7 @@
 async function cargarComentarios() {
+     // 1. Buscá el contenedor con id "comentarios-box"
+        const caja = document.getElementById("comentarios-box");
+        caja.innerHTML = "Cargando...";
     try {
         const res = await fetch('https://jsonplaceholder.typicode.com/comments');
         const datos = await res.json();
@@ -6,8 +9,7 @@ async function cargarComentarios() {
         // Filtramos para no llenar la pantalla: solo los primeros 3
         const cortos = datos.filter(c => c.id <= 3); 
 
-        // 1. Buscá el contenedor con id "comentarios-box"
-        const caja = document.getElementById("comentarios-box");
+        caja.innerHTML = "";
 
         cortos.forEach(comentario => {
             // 2. Creá un elemento "p" (párrafo)
@@ -28,7 +30,11 @@ async function cargarComentarios() {
         });
     } catch (error) {
         console.log("Error al cargar:", error);
+        caja.innerHTML = "Error al conectar con el servidor."
+        console.log("Detalle del error:", error);
+        
     }
 }
 
-cargarComentarios();
+const boton = document.getElementById("mi-boton");
+        boton.addEventListener("click", cargarComentarios);
